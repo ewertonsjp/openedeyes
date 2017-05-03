@@ -15,15 +15,17 @@
 <ion-content padding>
   <ion-card>
 
-    <img src="https://image.freepik.com/free-icon/businessman-with-ascending-arrow-stair-in-a-circle_318-57626.jpg"/>
+    <ion-card-header>
+      SQLs c/ Inconsistências
+    </ion-card-header>
 
     <ion-card-content>
-      <ion-card-title>
-        Safisfação do Cliente
-      </ion-card-title>
+      <canvas #lineCanvas></canvas>
+
       <p>
-        Indica o quanto [em uma escala de 0-RUIM a 5-ÓTIMO] colaboradores do fluxo de análise de glosas estão satisfeitos com o sistema.
+        Quantidade de <i>sqls</i> de monitoramento que identificaram problemas de inconsistências.
       </p>
+
     </ion-card-content>
 
     <ion-item item-right>
