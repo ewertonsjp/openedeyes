@@ -9,6 +9,7 @@ import { HomePage } from '../pages/home/home';
 import { PlanDetailPage } from '../pages/plan-detail/plan-detail';
 import { IndicatorPage } from '../pages/indicator/indicator';
 import { TabsPage } from '../pages/tabs/tabs';
+import { IndicatorModalPage } from '../pages/indicator-modal/indicator-modal';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -21,7 +22,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     HomePage,
     TabsPage,
     PlanDetailPage,
-    IndicatorPage
+    IndicatorPage,
+    IndicatorModalPage
   ],
   imports: [
     BrowserModule,
@@ -35,7 +37,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     HomePage,
     TabsPage,
     PlanDetailPage,
-    IndicatorPage
+    IndicatorPage,
+    IndicatorModalPage
   ],
   providers: [
     StatusBar,
