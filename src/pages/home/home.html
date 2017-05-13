@@ -6,23 +6,13 @@
 
 <ion-content padding>
 
-  <ion-card (click)="showDetails()">
+  <ion-card *ngFor="let plan of plans" (click)="showDetails(plan.id)">
     <ion-card-header>
-      PLAN2017.1 - CLIENTE [CE]
+      {{plan.name}}
     </ion-card-header>
 
     <ion-card-content>
-      Melhorar a percepção do cliente Coopanest-CE em relação ao sistema Colméia-CE e aos serviços ofertados pela INFOWAY.
-    </ion-card-content>
-  </ion-card>
-
-  <ion-card (click)="showDetails()">
-    <ion-card-header>
-      PLAN2017.1 - CLIENTE [MCZ]
-    </ion-card-header>
-
-    <ion-card-content>
-      Melhorar a percepção do cliente Santacoop-AL em relação ao sistema Colméia-CE e aos serviços ofertados pela INFOWAY.
+      {{plan.description}}
     </ion-card-content>
   </ion-card>
 
