@@ -8,13 +8,20 @@ export class PlanProvider {
   plans;
 
   constructor(public http: Http) {
-    console.log('Hello PlanProvider Provider');
+
   }
 
   list() {
     return new Promise(resolve => {
       this.http.get('http://localhost:8100/plan').map(res => res.json()).subscribe(data => {
-          console.log(data);
+          resolve(data);
+      });
+    });
+  }
+
+  get(planId) {
+    return new Promise(resolve => {
+      this.http.get('http://localhost:8100/plan/' + planId).map(res => res.json()).subscribe(data => {
           resolve(data);
       });
     });

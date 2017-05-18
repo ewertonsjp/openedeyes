@@ -24,8 +24,9 @@ export class HomePage {
   }
 
   showDetails(planId) {
-    console.log(planId);
-    this.navCtrl.push(PlanDetailPage);
+    this.navCtrl.push(PlanDetailPage, {
+      _planId: planId
+    });
   }
 
 }

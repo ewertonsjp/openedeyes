@@ -13,14 +13,14 @@
 </ion-header>
 
 <ion-content padding>
-  <h1 padding>PLAN2017.1 - CLIENTE [CE]</h1>
+  <h1 padding>{{plan?.name}}</h1>
 
   <ion-list-header>
     Objetivo
   </ion-list-header>
 
   <div text-justify padding>
-    Melhorar a percepção do cliente Coopanest-CE em relação ao sistema Colméia-CE e aos serviços ofertados pela INFOWAY.
+    {{plan?.description}}
   </div>
 
   <ion-list-header>
@@ -28,7 +28,7 @@
   </ion-list-header>
 
   <div text-justify padding>
-    Task 01...
+    @temp
   </div>
 
   <ion-list-header>
@@ -36,7 +36,7 @@
   </ion-list-header>
 
   <div text-justify padding>
-    Resultado 01...
+    @temp
   </div>
 
   <ion-list>
@@ -45,8 +45,8 @@
       Indicadores
     </ion-list-header>
 
-    <ion-item (click)="showDetails()">
-      Sqls com Inconsistências
+    <ion-item *ngFor="let ind of plan?.indicators" (click)="showDetails(ind.id)">
+      {{ind.name}}
     </ion-item>
 
   </ion-list>
