@@ -35,12 +35,10 @@ export class IndicatorPage {
   loadChart() {
     this.groupProvider.get(1).then(data => {
       this.group = data;
-      console.log(this.group);
 
       let _labels = this.dailyLabels(this.group);
-      console.log(_labels);
-
       let _datasets = [];
+
       for (let _indicator of this.group.indicators) {
           let _map = new Map();
           for (let _label of _labels) {
@@ -49,9 +47,6 @@ export class IndicatorPage {
           for (let _measure of _indicator.measures) {
               _map.set(_measure.assembled_at,_measure.value);
           }
-
-          console.log(_map);
-          console.log(Array.from(_map.values()));
 
           let _color = this.dynamicColors();
           _datasets.push({
@@ -91,9 +86,10 @@ export class IndicatorPage {
   }
 
   openModal() {
-    let myModal = this.modalCtrl.create(IndicatorModalPage);
+    let myModal = this.modalCtrl.create(IndicatorModalPage, {'group':this.group});
 
     myModal.onDidDismiss(data => {
+      console.log(data);
       this.indicatorProvider.add(data.value);
       this.loadChart();
     });

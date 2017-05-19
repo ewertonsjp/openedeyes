@@ -13,17 +13,18 @@ import { NavController, NavParams, ViewController } from 'ionic-angular';
 })
 export class IndicatorModalPage {
 
-  value;
+  group: any = this.navParams.get('group');
+  values = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad IndicatorModal');
+
   }
 
   closeModal() {
-    this.viewCtrl.dismiss({value:this.value});
+    this.viewCtrl.dismiss({data:this.values});
   }
 
 }

@@ -20,7 +20,6 @@ export class PlanDetailPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public planProvider: PlanProvider) {
     planProvider.get(navParams.get("_planId")).then(data => {
-      console.log(data);
       this.plan = data;
     });
   }
