@@ -6,11 +6,11 @@
   "proxies": [
     {
       "path": "/plan",
-      "proxyUrl": "http://safe-everglades-60916.herokuapp.com/plan"
+      "proxyUrl": "https://safe-everglades-60916.herokuapp.com/plan"
     },
     {
       "path": "/group",
-      "proxyUrl": "http://safe-everglades-60916.herokuapp.com/group"
+      "proxyUrl": "https://safe-everglades-60916.herokuapp.com/group"
     }
   ]
 }
