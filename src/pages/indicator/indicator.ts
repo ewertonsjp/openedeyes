@@ -89,9 +89,19 @@ export class IndicatorPage {
     let myModal = this.modalCtrl.create(IndicatorModalPage, {'group':this.group});
 
     myModal.onDidDismiss(data => {
-      console.log(data);
-      this.indicatorProvider.add(data.value);
-      this.loadChart();
+      let _data = data.data;
+
+      let measures = [];
+      for (var i = 0; i < _data.length; i++) {
+        if (_data[i]) {
+          measures.push({"indicator_id":i, "value":_data[i]});
+        }
+      }
+
+      this.groupProvider.measure(this.group, measures).then(data => {
+        this.loadChart();
+      });
+
     });
 
     myModal.present();

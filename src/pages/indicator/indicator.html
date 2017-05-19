@@ -20,21 +20,14 @@
 </ion-header>
 
 <ion-content padding>
+
   <ion-card>
 
+    <ion-card-header>
+      {{group?.name}}
+    </ion-card-header>
+
     <canvas #lineCanvas></canvas>
-
-    <ion-card-content>
-
-      <ion-card-title>
-        Detalhes
-      </ion-card-title>
-
-      <p>
-        Quantidade de <i>sqls</i> de monitoramento que identificaram problemas de inconsistências.
-      </p>
-
-    </ion-card-content>
 
   </ion-card>
 
