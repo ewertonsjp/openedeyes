@@ -7,6 +7,10 @@
     {
       "path": "/plan",
       "proxyUrl": "http://openedeyes.app/plan"
+    },
+    {
+      "path": "/group",
+      "proxyUrl": "http://openedeyes.app/group"
     }
   ]
 }

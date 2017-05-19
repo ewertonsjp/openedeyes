@@ -4,6 +4,7 @@ import { ModalController } from 'ionic-angular';
 
 import { Chart } from 'chart.js';
 import { IndicatorProvider } from '../../providers/indicator-provider';
+import { GroupProvider } from '../../providers/group-provider';
 
 import { IndicatorModalPage } from '../indicator-modal/indicator-modal';
 
@@ -16,14 +17,15 @@ import { IndicatorModalPage } from '../indicator-modal/indicator-modal';
 @Component({
   selector: 'page-indicator',
   templateUrl: 'indicator.html',
-  providers: [IndicatorProvider]
+  providers: [IndicatorProvider, GroupProvider]
 })
 export class IndicatorPage {
 
   @ViewChild('lineCanvas') lineCanvas;
   lineChart: any;
+  group: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public indicatorProvider: IndicatorProvider, public modalCtrl: ModalController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public indicatorProvider: IndicatorProvider, public modalCtrl: ModalController, public groupProvider: GroupProvider) {
   }
 
   ionViewDidLoad() {
@@ -31,45 +33,61 @@ export class IndicatorPage {
   }
 
   loadChart() {
-    let indicator = this.indicatorProvider.get(1);
-    let labels = [];
-    let data = [];
+    this.groupProvider.get(1).then(data => {
+      this.group = data;
+      console.log(this.group);
 
-    for (let measure of indicator.measures) {
-      labels.push(measure.label);
-      data.push(measure.value);
-    }
+      let _labels = this.dailyLabels(this.group);
+      console.log(_labels);
 
-    this.lineChart = new Chart(this.lineCanvas.nativeElement, {
-        type: 'line',
-        data: {
-            labels: labels,
-            datasets: [
-                {
-                    label: indicator.name,
-                    fill: false,
-                    lineTension: 0.1,
-                    backgroundColor: "rgba(75,192,192,0.4)",
-                    borderColor: "rgba(75,192,192,1)",
-                    borderCapStyle: 'butt',
-                    borderDash: [],
-                    borderDashOffset: 0.0,
-                    borderJoinStyle: 'miter',
-                    pointBorderColor: "rgba(75,192,192,1)",
-                    pointBackgroundColor: "#fff",
-                    pointBorderWidth: 1,
-                    pointHoverRadius: 5,
-                    pointHoverBackgroundColor: "rgba(75,192,192,1)",
-                    pointHoverBorderColor: "rgba(220,220,220,1)",
-                    pointHoverBorderWidth: 2,
-                    pointRadius: 1,
-                    pointHitRadius: 10,
-                    data: data,
-                    spanGaps: false,
-                }
-            ]
-        }
+      let _datasets = [];
+      for (let _indicator of this.group.indicators) {
+          let _map = new Map();
+          for (let _label of _labels) {
+              _map.set(_label,0);
+          }
+          for (let _measure of _indicator.measures) {
+              _map.set(_measure.assembled_at,_measure.value);
+          }
+
+          console.log(_map);
+          console.log(Array.from(_map.values()));
+
+          let _color = this.dynamicColors();
+          _datasets.push({
+            label: _indicator.name,
+            fill: false,
+            lineTension: 0.1,
+            backgroundColor: _color,
+            borderColor: _color,
+            borderCapStyle: 'butt',
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: _color,
+            pointBackgroundColor: _color,
+            pointBorderWidth: 1,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: _color,
+            pointHoverBorderColor: _color,
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+            data: Array.from(_map.values()),
+            spanGaps: false
+          });
+      }
+
+      this.lineChart = new Chart(this.lineCanvas.nativeElement, {
+          type: 'line',
+          data: {
+              labels: _labels,
+              datasets: _datasets
+          }
+      });
+
     });
+
   }
 
   openModal() {
@@ -82,4 +100,22 @@ export class IndicatorPage {
 
     myModal.present();
   }
+
+  dailyLabels(group) {
+    let _labels = new Set();
+    for (let indicator of group.indicators) {
+      for (let measure of indicator.measures) {
+        _labels.add(measure.assembled_at);
+      }
+    }
+    return Array.from(_labels);
+  }
+
+  dynamicColors() {
+    let r = Math.floor(Math.random() * 255);
+    let g = Math.floor(Math.random() * 255);
+    let b = Math.floor(Math.random() * 255);
+    return "rgb(" + r + "," + g + "," + b + ")";
+  }
+
 }
