@@ -6,11 +6,11 @@
   "proxies": [
     {
       "path": "/plan",
-      "proxyUrl": "http://openedeyes.app/plan"
+      "proxyUrl": "http://safe-everglades-60916.herokuapp.com/plan"
     },
     {
       "path": "/group",
-      "proxyUrl": "http://openedeyes.app/group"
+      "proxyUrl": "http://safe-everglades-60916.herokuapp.com/group"
     }
   ]
 }
