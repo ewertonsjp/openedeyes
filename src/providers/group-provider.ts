@@ -22,13 +22,15 @@ export class Measure {
 @Injectable()
 export class GroupProvider {
 
+  BASE_URL = "https://safe-everglades-60916.herokuapp.com/group/";
+
   constructor(public http: Http) {
 
   }
 
   get(groupId) {
     return new Promise(resolve => {
-      this.http.get('http://localhost:8100/group/' + groupId).map(res => res.json()).subscribe(data => {
+      this.http.get(this.BASE_URL + groupId).map(res => res.json()).subscribe(data => {
           resolve(data);
       });
     });
@@ -40,7 +42,7 @@ export class GroupProvider {
     }
 
     return new Promise(resolve => {
-      this.http.post('http://localhost:8100/group/' + group.id + '/measure', body).subscribe(data => {
+      this.http.post(this.BASE_URL + group.id + '/measure', body).subscribe(data => {
          resolve(data);
       }, error => {
           console.log("Oooops!");

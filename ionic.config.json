@@ -2,15 +2,5 @@
   "name": "openedeyes",
   "app_id": "c38bca16",
   "v2": true,
-  "typescript": true,
-  "proxies": [
-    {
-      "path": "/plan",
-      "proxyUrl": "https://safe-everglades-60916.herokuapp.com/plan"
-    },
-    {
-      "path": "/group",
-      "proxyUrl": "https://safe-everglades-60916.herokuapp.com/group"
-    }
-  ]
+  "typescript": true
 }
