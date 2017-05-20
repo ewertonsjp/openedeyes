@@ -89,10 +89,11 @@ export class IndicatorPage {
     let myModal = this.modalCtrl.create(IndicatorModalPage, {'group':this.group});
 
     myModal.onDidDismiss(data => {
-      this.groupProvider.measure(this.group, data.data).then(data => {
-        this.loadChart();
-      });
-
+      if (data.confirm) {
+        this.groupProvider.measure(this.group, data.data).then(data => {
+          this.loadChart();
+        });
+      }
     });
 
     myModal.present();

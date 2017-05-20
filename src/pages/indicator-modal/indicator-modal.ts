@@ -21,8 +21,8 @@ export class IndicatorModalPage {
       this.values.push({
         "indicator_id":indicator.id,
         "name":indicator.name,
-        "date":new Date(),
-        "value":""
+        "date":'2017-05-20',
+        "value":"0"
       });
     }
   }
@@ -31,8 +31,8 @@ export class IndicatorModalPage {
 
   }
 
-  closeModal() {
-    this.viewCtrl.dismiss({data:this.values});
+  closeModal(confirm) {
+    this.viewCtrl.dismiss({data:this.values, confirm:confirm});
   }
 
 }
