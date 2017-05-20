@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 import { ModalController } from 'ionic-angular';
 
 import { Chart } from 'chart.js';
@@ -89,16 +89,7 @@ export class IndicatorPage {
     let myModal = this.modalCtrl.create(IndicatorModalPage, {'group':this.group});
 
     myModal.onDidDismiss(data => {
-      let _data = data.data;
-
-      let measures = [];
-      for (var i = 0; i < _data.length; i++) {
-        if (_data[i]) {
-          measures.push({"indicator_id":i, "value":_data[i]});
-        }
-      }
-
-      this.groupProvider.measure(this.group, measures).then(data => {
+      this.groupProvider.measure(this.group, data.data).then(data => {
         this.loadChart();
       });
 
@@ -114,7 +105,7 @@ export class IndicatorPage {
         _labels.add(measure.assembled_at);
       }
     }
-    return Array.from(_labels);
+    return Array.from(_labels).sort();
   }
 
   dynamicColors() {

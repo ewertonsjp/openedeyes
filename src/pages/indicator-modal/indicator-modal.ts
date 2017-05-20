@@ -17,6 +17,14 @@ export class IndicatorModalPage {
   values = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController) {
+    for (let indicator of this.group.indicators) {
+      this.values.push({
+        "indicator_id":indicator.id,
+        "name":indicator.name,
+        "date":new Date(),
+        "value":""
+      });
+    }
   }
 
   ionViewDidLoad() {

@@ -14,11 +14,11 @@
 
 <ion-content padding>
 
-  <ion-item *ngFor="let indicator of group?.indicators">
+  <ion-item *ngFor="let indicator of values">
      <ion-label fixed>{{indicator.name}}</ion-label>
-     <ion-input type="text" value="" [(ngModel)]="values[indicator.id]"></ion-input>
+     <ion-input type="text" value="" [(ngModel)]="indicator.value"></ion-input>
   </ion-item>
 
-   <button ion-button block (click)="closeModal()">OK</button>
+  <button ion-button block (click)="closeModal()">OK</button>
 
 </ion-content>
