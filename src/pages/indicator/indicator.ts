@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, Loading, LoadingController } from 'ionic-angular';
 import { ModalController } from 'ionic-angular';
 
 import { Chart } from 'chart.js';
@@ -24,16 +24,26 @@ export class IndicatorPage {
   @ViewChild('lineCanvas') lineCanvas;
   lineChart: any;
   group: any;
+  loading: Loading;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public indicatorProvider: IndicatorProvider, public modalCtrl: ModalController, public groupProvider: GroupProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public indicatorProvider: IndicatorProvider, public modalCtrl: ModalController, public groupProvider: GroupProvider, public loadingCtrl: LoadingController) {
+    /**show loading*/
+    this.loading = this.loadingCtrl.create({
+      content: 'Loading...',
+      dismissOnPageChange: true
+    });
+
+    this.loading.present().then(() => {
+      /**loading*/
+      this.loadChart(navParams.get("_groupId"));
+
+      /**dismiss loading*/
+      this.loading.dismiss();
+    });
   }
 
-  ionViewDidLoad() {
-    this.loadChart();
-  }
-
-  loadChart() {
-    this.groupProvider.get(1).then(data => {
+  loadChart(groupId) {
+    this.groupProvider.get(groupId).then(data => {
       this.group = data;
 
       let _labels = this.dailyLabels(this.group);
@@ -90,9 +100,22 @@ export class IndicatorPage {
 
     myModal.onDidDismiss(data => {
       if (data.confirm) {
-        this.groupProvider.measure(this.group, data.data).then(data => {
-          this.loadChart();
+        /**show loading*/
+        this.loading = this.loadingCtrl.create({
+          content: 'Loading...',
+          dismissOnPageChange: true
         });
+
+        this.loading.present().then(() => {
+          /**loading*/
+          this.groupProvider.measure(this.group, data.data).then(data => {
+            this.loadChart(this.group.id);
+          });
+
+          /**dismiss loading*/
+          this.loading.dismiss();
+        });
+
       }
     });
 

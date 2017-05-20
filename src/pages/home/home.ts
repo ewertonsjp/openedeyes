@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, Loading, LoadingController } from 'ionic-angular';
 
 import { PlanDetailPage } from '../plan-detail/plan-detail';
 import { PlanProvider } from '../../providers/plan-provider';
@@ -12,11 +12,25 @@ import { PlanProvider } from '../../providers/plan-provider';
 export class HomePage {
 
   plans;
+  loading: Loading;
 
-  constructor(public navCtrl: NavController, public planProvider: PlanProvider) {
-    this.planProvider.list().then(data => {
-      this.plans = data;
+  constructor(public navCtrl: NavController, public planProvider: PlanProvider, public loadingCtrl: LoadingController) {
+    /**show loading*/
+    this.loading = this.loadingCtrl.create({
+      content: 'Loading...',
+      dismissOnPageChange: true
     });
+
+    this.loading.present().then(() => {
+      /**loading*/
+      this.planProvider.list().then(data => {
+        this.plans = data;
+      });
+
+      /**dismiss loading*/
+      this.loading.dismiss();
+    });
+
   }
 
   ionViewDidLoad() {

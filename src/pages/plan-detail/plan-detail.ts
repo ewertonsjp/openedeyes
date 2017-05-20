@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, Loading, LoadingController } from 'ionic-angular';
 import { PlanProvider } from '../../providers/plan-provider';
 import { IndicatorPage } from '../indicator/indicator';
 
@@ -17,15 +17,31 @@ import { IndicatorPage } from '../indicator/indicator';
 export class PlanDetailPage {
 
   plan:any;
+  loading: Loading;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public planProvider: PlanProvider) {
-    planProvider.get(navParams.get("_planId")).then(data => {
-      this.plan = data;
+  constructor(public navCtrl: NavController, public navParams: NavParams, public planProvider: PlanProvider, public loadingCtrl: LoadingController) {
+    /**show loading*/
+    this.loading = this.loadingCtrl.create({
+      content: 'Loading...',
+      dismissOnPageChange: true
     });
+
+    this.loading.present().then(() => {
+      /**loading*/
+      planProvider.get(navParams.get("_planId")).then(data => {
+        this.plan = data;
+      });
+
+      /**dismiss loading*/
+      this.loading.dismiss();
+    });
+
   }
 
-  showDetails(indicatorId) {
-    this.navCtrl.push(IndicatorPage);
+  showDetails(groupId) {
+    this.navCtrl.push(IndicatorPage, {
+      _groupId: groupId
+    });
   }
 
 }
