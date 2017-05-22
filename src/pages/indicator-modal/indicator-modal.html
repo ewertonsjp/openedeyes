@@ -14,17 +14,18 @@
 
 <ion-content padding>
 
+  <ion-card>
+    <ion-card-content>
+      <ion-datetime displayFormat="DD MMM YYYY" [(ngModel)]="date"></ion-datetime>
+    </ion-card-content>
+  </ion-card>
+
   <ion-card *ngFor="let indicator of values" class="cards-list-demo">
     <ion-card-header>
       {{indicator.name}}
     </ion-card-header>
 
     <ion-list>
-      <ion-item>
-        <ion-label>Data</ion-label>
-        <ion-datetime displayFormat="DD MMM YYYY" [(ngModel)]="indicator.date"></ion-datetime>
-      </ion-item>
-
       <ion-item>
          <ion-label>Medida</ion-label>
          <ion-input type="text" value="" [(ngModel)]="indicator.value" item-right></ion-input>

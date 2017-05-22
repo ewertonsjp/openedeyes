@@ -82,6 +82,11 @@ export class IndicatorPage {
             data: {
                 labels: _labels,
                 datasets: _datasets
+            },
+            options: {
+              legend: {
+                  position: 'bottom',
+              }
             }
         });
 

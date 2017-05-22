@@ -22,13 +22,13 @@ export class PlanDetailPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public planProvider: PlanProvider, public loadingCtrl: LoadingController) {
     /**show loading*/
     this.loading = this.loadingCtrl.create({
-      content: 'Loading...',
-      dismissOnPageChange: true
+      content: 'Loading...'
     });
 
     this.loading.present().then(() => {
       planProvider.get(navParams.get("_planId")).then(data => {
         this.plan = data;
+        this.loading.dismiss();
       });
     });
 
