@@ -21,7 +21,7 @@ export class IndicatorModalPage {
       this.values.push({
         "indicator_id":indicator.id,
         "name":indicator.name,
-        "date":'2017-05-20',
+        "date":new Date().toISOString().split('T')[0],
         "value":"0"
       });
     }

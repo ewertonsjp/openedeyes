@@ -27,68 +27,66 @@ export class IndicatorPage {
   loading: Loading;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public indicatorProvider: IndicatorProvider, public modalCtrl: ModalController, public groupProvider: GroupProvider, public loadingCtrl: LoadingController) {
-    /**show loading*/
-    this.loading = this.loadingCtrl.create({
-      content: 'Loading...',
-      dismissOnPageChange: true
-    });
-
-    this.loading.present().then(() => {
-      /**loading*/
-      this.loadChart(navParams.get("_groupId"));
-
-      /**dismiss loading*/
-      this.loading.dismiss();
-    });
+    this.loadChart(navParams.get("_groupId"));
   }
 
   loadChart(groupId) {
-    this.groupProvider.get(groupId).then(data => {
-      this.group = data;
+    /**show loading*/
+    this.loading = this.loadingCtrl.create({
+      content: 'Loading...'
+    });
 
-      let _labels = this.dailyLabels(this.group);
-      let _datasets = [];
+    this.loading.present().then(() => {
+      this.groupProvider.get(groupId).then(data => {
+        this.group = data;
 
-      for (let _indicator of this.group.indicators) {
-          let _map = new Map();
-          for (let _label of _labels) {
-              _map.set(_label,0);
-          }
-          for (let _measure of _indicator.measures) {
-              _map.set(_measure.assembled_at,_measure.value);
-          }
+        let _labels = this.dailyLabels(this.group);
+        let _datasets = [];
 
-          let _color = this.dynamicColors();
-          _datasets.push({
-            label: _indicator.name,
-            fill: false,
-            lineTension: 0.1,
-            backgroundColor: _color,
-            borderColor: _color,
-            borderCapStyle: 'butt',
-            borderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: 'miter',
-            pointBorderColor: _color,
-            pointBackgroundColor: _color,
-            pointBorderWidth: 1,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: _color,
-            pointHoverBorderColor: _color,
-            pointHoverBorderWidth: 2,
-            pointRadius: 1,
-            pointHitRadius: 10,
-            data: Array.from(_map.values()),
-            spanGaps: false
-          });
-      }
+        for (let _indicator of this.group.indicators) {
+            let _map = new Map();
+            for (let _label of _labels) {
+                _map.set(_label,0);
+            }
+            for (let _measure of _indicator.measures) {
+                _map.set(_measure.assembled_at,_measure.value);
+            }
 
-      this.lineChart = new Chart(this.lineCanvas.nativeElement, {
-          type: 'line',
-          data: {
-              labels: _labels,
-              datasets: _datasets
-          }
+            let _color = this.dynamicColors();
+            _datasets.push({
+              label: _indicator.name,
+              fill: false,
+              lineTension: 0.1,
+              backgroundColor: _color,
+              borderColor: _color,
+              borderCapStyle: 'butt',
+              borderDash: [],
+              borderDashOffset: 0.0,
+              borderJoinStyle: 'miter',
+              pointBorderColor: _color,
+              pointBackgroundColor: _color,
+              pointBorderWidth: 1,
+              pointHoverRadius: 5,
+              pointHoverBackgroundColor: _color,
+              pointHoverBorderColor: _color,
+              pointHoverBorderWidth: 2,
+              pointRadius: 1,
+              pointHitRadius: 10,
+              data: Array.from(_map.values()),
+              spanGaps: false
+            });
+        }
+
+        this.lineChart = new Chart(this.lineCanvas.nativeElement, {
+            type: 'line',
+            data: {
+                labels: _labels,
+                datasets: _datasets
+            }
+        });
+
+        this.loading.dismiss();
+
       });
 
     });
@@ -100,22 +98,9 @@ export class IndicatorPage {
 
     myModal.onDidDismiss(data => {
       if (data.confirm) {
-        /**show loading*/
-        this.loading = this.loadingCtrl.create({
-          content: 'Loading...',
-          dismissOnPageChange: true
+        this.groupProvider.measure(this.group, data.data).then(data => {
+          this.loadChart(this.group.id);
         });
-
-        this.loading.present().then(() => {
-          /**loading*/
-          this.groupProvider.measure(this.group, data.data).then(data => {
-            this.loadChart(this.group.id);
-          });
-
-          /**dismiss loading*/
-          this.loading.dismiss();
-        });
-
       }
     });
 

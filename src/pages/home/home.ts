@@ -22,18 +22,11 @@ export class HomePage {
     });
 
     this.loading.present().then(() => {
-      /**loading*/
       this.planProvider.list().then(data => {
         this.plans = data;
+        this.loading.dismiss();
       });
-
-      /**dismiss loading*/
-      this.loading.dismiss();
     });
-
-  }
-
-  ionViewDidLoad() {
 
   }
 

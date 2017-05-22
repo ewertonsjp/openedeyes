@@ -27,13 +27,9 @@ export class PlanDetailPage {
     });
 
     this.loading.present().then(() => {
-      /**loading*/
       planProvider.get(navParams.get("_planId")).then(data => {
         this.plan = data;
       });
-
-      /**dismiss loading*/
-      this.loading.dismiss();
     });
 
   }
