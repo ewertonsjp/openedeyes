@@ -11,6 +11,7 @@ import { PlanDetailPage } from '../pages/plan-detail/plan-detail';
 import { IndicatorPage } from '../pages/indicator/indicator';
 import { TabsPage } from '../pages/tabs/tabs';
 import { IndicatorModalPage } from '../pages/indicator-modal/indicator-modal';
+import { GroupModalPage } from '../pages/group-modal/group-modal'
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -24,7 +25,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     TabsPage,
     PlanDetailPage,
     IndicatorPage,
-    IndicatorModalPage
+    IndicatorModalPage,
+    GroupModalPage
   ],
   imports: [
     BrowserModule,
@@ -40,7 +42,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     TabsPage,
     PlanDetailPage,
     IndicatorPage,
-    IndicatorModalPage
+    IndicatorModalPage,
+    GroupModalPage
   ],
   providers: [
     StatusBar,
