@@ -65,4 +65,18 @@ export class GroupProvider {
     });
   }
 
+  edit(group) {
+    let body = {
+      group: group
+    }
+
+    return new Promise(resolve => {
+      this.http.post(this.BASE_URL + '/' + group.id + '/edit', body).subscribe(data => {
+        resolve(data);
+      }, error => {
+          console.log("Oooops!");
+      });
+    });
+
+  }
 }

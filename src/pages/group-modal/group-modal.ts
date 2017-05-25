@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ViewController } from 'ionic-angular';
+import { GroupProvider } from '../../providers/group-provider';
 
 /**
  * Generated class for the GroupModal page.
@@ -9,23 +10,27 @@ import { NavController, NavParams, ViewController } from 'ionic-angular';
  */
 @Component({
   selector: 'page-group-modal',
-  templateUrl: 'group-modal.html'
+  templateUrl: 'group-modal.html',
+  providers: [GroupProvider]
 })
 export class GroupModalPage {
 
   group;
+  groupId: any = this.navParams.get('groupId');
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController, public groupProvider: GroupProvider) {
     this.group = {
       name:"",
       indicators: [
-        {name:""}
+        {id:"", name:""}
       ]
     }
-  }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad GroupModal');
+    if (this.groupId) {
+      this.groupProvider.get(this.groupId).then(data => {
+        this.group = data;
+      });
+    }
   }
 
   addIndicator() {
