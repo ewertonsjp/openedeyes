@@ -57,8 +57,8 @@ export class GroupProvider {
     }
 
     return new Promise(resolve => {
-      this.http.post(this.BASE_URL + '/', body).subscribe(data => {
-         resolve(data);
+      this.http.post(this.BASE_URL, body).subscribe(data => {
+        resolve(data);
       }, error => {
           console.log("Oooops!");
       });

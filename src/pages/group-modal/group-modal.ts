@@ -33,7 +33,6 @@ export class GroupModalPage {
   }
 
   closeModal(confirm) {
-    console.log(this.group);
     this.viewCtrl.dismiss({data:this.group, confirm:confirm});
   }
 
