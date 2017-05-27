@@ -46,7 +46,7 @@ export class IndicatorPage {
         for (let _indicator of this.group.indicators) {
             let _map = new Map();
             for (let _label of _labels) {
-                _map.set(_label,0);
+                _map.set(_label,NaN);
             }
             for (let _measure of _indicator.measures) {
                 _map.set(_measure.assembled_at,_measure.value);
@@ -73,7 +73,7 @@ export class IndicatorPage {
               pointRadius: 1,
               pointHitRadius: 10,
               data: Array.from(_map.values()),
-              spanGaps: false
+              spanGaps: true
             });
         }
 
