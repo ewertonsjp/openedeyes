@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Plano de Ação</ion-title>
+    <ion-title>{{plan?.name}}</ion-title>
 
     <ion-buttons end>
       <button ion-button icon-only item-right (click)="openModal()">
@@ -19,18 +19,19 @@
 
 </ion-header>
 
-<ion-content padding>
-  <h1 padding>{{plan?.name}}</h1>
+<ion-content>
 
-  <ion-list-header>
-    Objetivo
-  </ion-list-header>
+  <ion-card>
+    <ion-card-header>
+      Detalhes [objetivo, acoes, resultados]
+    </ion-card-header>
 
-  <div text-justify padding>
-    {{plan?.description}}
-  </div>
+    <ion-card-content>
+      {{plan?.description}}
+    </ion-card-content>
+  </ion-card>
 
-  <ion-list-header>
+  <!-- <ion-list-header>
     Ações
   </ion-list-header>
 
@@ -44,18 +45,23 @@
 
   <div text-justify padding>
     @temp
-  </div>
+  </div> -->
 
-  <ion-list>
+  <ion-card>
 
-    <ion-list-header>
+    <ion-card-header>
       Indicadores
-    </ion-list-header>
+    </ion-card-header>
 
-    <ion-item *ngFor="let group of plan?.groups" (click)="openMenu(group)">
-      {{group.name}}
-    </ion-item>
+    <ion-list>
 
-  </ion-list>
+      <button ion-item *ngFor="let group of plan?.groups" (click)="showDetails(group)">
+        <ion-icon name="cafe" item-left></ion-icon>
+        {{group.name}}
+      </button>
+
+    </ion-list>
+
+  </ion-card>
 
 </ion-content>

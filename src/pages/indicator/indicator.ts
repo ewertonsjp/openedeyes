@@ -1,11 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, NavParams, Loading, LoadingController } from 'ionic-angular';
+import { NavController, NavParams, Loading, LoadingController, Platform, ActionSheetController  } from 'ionic-angular';
 import { ModalController } from 'ionic-angular';
 
 import { Chart } from 'chart.js';
 import { IndicatorProvider } from '../../providers/indicator-provider';
 import { GroupProvider } from '../../providers/group-provider';
 
+import { GroupModalPage } from '../group-modal/group-modal';
 import { IndicatorModalPage } from '../indicator-modal/indicator-modal';
 
 /**
@@ -26,7 +27,7 @@ export class IndicatorPage {
   group: any;
   loading: Loading;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public indicatorProvider: IndicatorProvider, public modalCtrl: ModalController, public groupProvider: GroupProvider, public loadingCtrl: LoadingController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public indicatorProvider: IndicatorProvider, public modalCtrl: ModalController, public groupProvider: GroupProvider, public loadingCtrl: LoadingController, public platform: Platform, public actionsheetCtrl: ActionSheetController) {
     this.loadChart(navParams.get("_groupId"));
   }
 
@@ -98,6 +99,44 @@ export class IndicatorPage {
 
   }
 
+  openMenu(group) {
+    let actionSheet = this.actionsheetCtrl.create({
+      title: 'Opções',
+      cssClass: 'action-sheets-basic-page',
+      buttons: [
+        {
+          text: 'Nova Medida',
+          icon: !this.platform.is('ios') ? 'share' : null,
+          handler: () => {
+            this.openModal();
+          }
+        },
+        {
+          text: 'Atualizar Medida',
+          icon: !this.platform.is('ios') ? 'share' : null,
+          handler: () => {
+            //this.showDetails(group.id);
+          }
+        },
+        {
+          text: 'Editar Grupo',
+          icon: !this.platform.is('ios') ? 'share' : null,
+          handler: () => {
+            this.openEditModal(this.group.id);
+          }
+        },
+        {
+          text: 'Deletar Grupo',
+          icon: !this.platform.is('ios') ? 'arrow-dropright-circle' : null,
+          handler: () => {
+            //this.openModal(group.id);
+          }
+        }
+      ]
+    });
+    actionSheet.present();
+  }
+
   openModal() {
     let myModal = this.modalCtrl.create(IndicatorModalPage, {'group':this.group});
 
@@ -106,6 +145,28 @@ export class IndicatorPage {
         this.groupProvider.measure(this.group, data.data).then(data => {
           this.loadChart(this.group.id);
         });
+      }
+    });
+
+    myModal.present();
+  }
+
+  openEditModal(groupId) {
+    let myModal = this.modalCtrl.create(GroupModalPage, {
+      "groupId":groupId
+    });
+
+    myModal.onDidDismiss(data => {
+      if (data.confirm) {
+        if (!data.data.id) {
+          this.groupProvider.add(this.group.plan_id, data.data).then(_data => {
+            this.loadChart(this.group.id);
+          });
+        } else {
+          this.groupProvider.edit(data.data).then(_data => {
+            this.loadChart(this.group.id);
+          });
+        }
       }
     });
 

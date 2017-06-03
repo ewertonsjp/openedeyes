@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, Loading, LoadingController, ModalController, Platform, ActionSheetController } from 'ionic-angular';
+import { NavController, NavParams, Loading, LoadingController, ModalController } from 'ionic-angular';
 import { PlanProvider } from '../../providers/plan-provider';
 import { IndicatorPage } from '../indicator/indicator';
 import { GroupModalPage } from '../group-modal/group-modal';
@@ -21,7 +21,7 @@ export class PlanDetailPage {
   plan:any;
   loading: Loading;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public planProvider: PlanProvider, public loadingCtrl: LoadingController, public modalCtrl: ModalController, public groupProvider: GroupProvider, public platform: Platform, public actionsheetCtrl: ActionSheetController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public planProvider: PlanProvider, public loadingCtrl: LoadingController, public modalCtrl: ModalController, public groupProvider: GroupProvider) {
     this.loadPlan(this.navParams.get("_planId"));
   }
 
@@ -39,9 +39,9 @@ export class PlanDetailPage {
     });
   }
 
-  showDetails(groupId) {
+  showDetails(group) {
     this.navCtrl.push(IndicatorPage, {
-      _groupId: groupId
+      _groupId: group.id
     });
   }
 
@@ -57,38 +57,12 @@ export class PlanDetailPage {
             this.loadPlan(this.plan.id);
           });
         } else {
-          this.groupProvider.edit(data.data).then(_data => {
-            this.loadPlan(this.plan.id);
-          });
+          console.log('Oooopsss. Aqui não é lugar de EDIT! ;(')
         }
       }
     });
 
     myModal.present();
-  }
-
-  openMenu(group) {
-    let actionSheet = this.actionsheetCtrl.create({
-      title: 'Opções',
-      cssClass: 'action-sheets-basic-page',
-      buttons: [
-        {
-          text: 'Ver Gráfico',
-          icon: !this.platform.is('ios') ? 'share' : null,
-          handler: () => {
-            this.showDetails(group.id);
-          }
-        },
-        {
-          text: 'Editar',
-          icon: !this.platform.is('ios') ? 'arrow-dropright-circle' : null,
-          handler: () => {
-            this.openModal(group.id);
-          }
-        }
-      ]
-    });
-    actionSheet.present();
   }
 
 }
