@@ -77,6 +77,16 @@ export class GroupProvider {
           console.log("Oooops!");
       });
     });
-
   }
+
+  delete(group) {
+    return new Promise(resolve => {
+      this.http.delete(this.BASE_URL + '/' + group.id).subscribe(data => {
+        resolve(data);
+      }, error => {
+        console.log("Oooops!");
+      });
+    });
+  }
+
 }

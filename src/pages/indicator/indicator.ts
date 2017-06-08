@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { NavController, NavParams, Loading, LoadingController, Platform, ActionSheetController  } from 'ionic-angular';
-import { ModalController } from 'ionic-angular';
+import { ModalController, AlertController } from 'ionic-angular';
 
 import { Chart } from 'chart.js';
 import { IndicatorProvider } from '../../providers/indicator-provider';
@@ -27,7 +27,7 @@ export class IndicatorPage {
   group: any;
   loading: Loading;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public indicatorProvider: IndicatorProvider, public modalCtrl: ModalController, public groupProvider: GroupProvider, public loadingCtrl: LoadingController, public platform: Platform, public actionsheetCtrl: ActionSheetController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public indicatorProvider: IndicatorProvider, public modalCtrl: ModalController, public groupProvider: GroupProvider, public loadingCtrl: LoadingController, public platform: Platform, public actionsheetCtrl: ActionSheetController, public alertCtrl: AlertController) {
     this.loadChart(navParams.get("_groupId"));
   }
 
@@ -129,7 +129,7 @@ export class IndicatorPage {
           text: 'Deletar Grupo',
           icon: !this.platform.is('ios') ? 'arrow-dropright-circle' : null,
           handler: () => {
-            //this.openModal(group.id);
+            this.showAlert(group);
           }
         }
       ]
@@ -181,6 +181,30 @@ export class IndicatorPage {
       }
     }
     return Array.from(_labels).sort();
+  }
+
+  showAlert(group) {
+    let alert = this.alertCtrl.create({
+      title: 'DELETE!',
+      subTitle: 'Deseja excluir o Grupo ' + group.name + '?',
+      buttons: [
+        {
+          text: 'Não',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Sim',
+          handler: data => {
+            this.groupProvider.delete(group).then(_data => {
+              this.navCtrl.pop();
+            });
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 
   dynamicColors() {
